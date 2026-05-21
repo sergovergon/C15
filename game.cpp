@@ -1,6 +1,8 @@
 // game.cpp
 // compile with:
+
 // em++ game.cpp -O2 -s WASM=1 -s EXPORTED_FUNCTIONS='["_move","_getCell","_shuffle"]' -o game.js
+
 
 extern "C"
 {
