@@ -74,7 +74,7 @@ int getCell(int x, int y)
 
 void shuffle()
 {
-    init();
+    //init();
 
     for(int i = 0; i < 1000; i++)
     {
