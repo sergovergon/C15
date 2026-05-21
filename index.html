@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<style>
+
+body
+{
+    background: #202020;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+}
+
+#board
+{
+    display: grid;
+
+    grid-template-columns: repeat(4, 80px);
+
+    gap: 5px;
+}
+
+.cell
+{
+    width: 80px;
+    height: 80px;
+
+    background: #404040;
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 32px;
+
+    cursor: pointer;
+
+    border-radius: 10px;
+}
+
+.empty
+{
+    background: black;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="board"></div>
+
+<script src="game.js"></script>
+
+<script>
+
+Module.onRuntimeInitialized = function()
+{
+    Module._shuffle();
+
+    draw();
+};
+
+function draw()
+{
+    const board =
+        document.getElementById("board");
+
+    board.innerHTML = "";
+
+    for(let y = 0; y < 4; y++)
+    {
+        for(let x = 0; x < 4; x++)
+        {
+            const v =
+                Module._getCell(x, y);
+
+            const d =
+                document.createElement("div");
+
+            d.className = "cell";
+
+            if(v == 0)
+            {
+                d.classList.add("empty");
+            }
+            else
+            {
+                d.innerText = v;
+            }
+
+            d.onclick = function()
+            {
+                Module._move(x, y);
+
+                draw();
+            };
+
+            board.appendChild(d);
+        }
+    }
+}
+
+</script>
+
+</body>
+</html>
