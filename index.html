@@ -2,105 +2,75 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
 <style>
-
-body
-{
+body {
     background: #202020;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     height: 100vh;
+    margin: 0;
 }
-
-#board
-{
+#board {
     display: grid;
-
     grid-template-columns: repeat(4, 80px);
-
     gap: 5px;
 }
-
-.cell
-{
+.cell {
     width: 80px;
     height: 80px;
-
     background: #404040;
     color: white;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     font-size: 32px;
-
     cursor: pointer;
-
     border-radius: 10px;
+    user-select: none; /* Щоб текст не виділявся при частих кліках */
 }
-
-.empty
-{
+.empty {
     background: black;
 }
-
 </style>
 </head>
-
 <body>
 
 <div id="board"></div>
 
+<script>
+// 1. Оголошуємо об'єкт Module ДО завантаження game.js
+var Module = {
+    onRuntimeInitialized: function() {
+        Module._init();
+        Module._shuffle();
+        draw();
+    }
+};
+</script>
+
+<!-- 2. Тільки тепер завантажуємо згенерований Emscripten-скрипт -->
 <script src="game.js"></script>
 
 <script>
-
-Module.onRuntimeInitialized = function()
-{
-    
-    Module._init();
-    Module._shuffle();
-
-    draw();
-};
-
-function draw()
-{
-    const board =
-        document.getElementById("board");
-
+function draw() {
+    const board = document.getElementById("board");
     board.innerHTML = "";
 
-    for(let y = 0; y < 4; y++)
-    {
-        for(let x = 0; x < 4; x++)
-        {
-            const v =
-                Module._getCell(x, y);
-
-            const d =
-                document.createElement("div");
-
+    for(let y = 0; y < 4; y++) {
+        for(let x = 0; x < 4; x++) {
+            const v = Module._getCell(x, y);
+            const d = document.createElement("div");
             d.className = "cell";
 
-            if(v == 0)
-            {
+            if(v == 0) {
                 d.classList.add("empty");
-            }
-            else
-            {
+            } else {
                 d.innerText = v;
             }
 
-            d.onclick = function()
-            {
+            d.onclick = function() {
                 Module._move(x, y);
-
                 draw();
             };
 
@@ -108,7 +78,6 @@ function draw()
         }
     }
 }
-
 </script>
 
 </body>
