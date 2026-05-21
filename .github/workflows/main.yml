@@ -21,9 +21,9 @@ jobs:
         run: |
           em++ game.cpp -O2 \
           -s WASM=1 \
-          -s EXPORTED_FUNCTIONS='["_move","_getCell","_shuffle"]' \
+          -s EXPORTED_FUNCTIONS='["_init","_move","_getCell","_shuffle"]' \
           -o game.js
-
+          
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
